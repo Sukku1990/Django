@@ -26,26 +26,19 @@ jobs:
 
       - name: Verify Repository Files
         run: |
-          echo "Current working directory:"
           pwd
-
-          echo "GitHub workspace:"
-          echo "$GITHUB_WORKSPACE"
-
-          echo "Repository files:"
-          ls -la "$GITHUB_WORKSPACE"
-
-          echo "Locate requirements.txt:"
-          find "$GITHUB_WORKSPACE" -name "requirements.txt"
-
-          echo "Verify requirements.txt:"
-          test -f "$GITHUB_WORKSPACE/requirements.txt"
+          ls -la django-ci/
+          test -f django-ci/requirements.txt
+          test -f django-ci/manage.py
 
       - name: Install Dependencies
+        working-directory: ./django-ci
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r "$GITHUB_WORKSPACE/requirements.txt"
+          python -m pip install -r requirements.txt
 
       - name: Run Tests
+        working-directory: ./django-ci
         run: |
           python manage.py test
+
